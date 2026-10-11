@@ -1,0 +1,22 @@
+// Cache offline: l'app funziona anche senza rete dopo la prima apertura.
+const CACHE = "peck-tea-v5";
+const ASSETS = ["./", "index.html", "css/app.css", "js/i18n.js", "js/flags.js", "img/peck-logo.png", "js/data.js", "js/desc/it.js", "js/desc/en.js", "js/desc/fr.js", "js/desc/es.js", "js/desc/ru.js", "js/desc/zh.js", "js/desc/ar.js", "js/app.js", "img/icon-192.png", "manifest.webmanifest"];
+
+self.addEventListener("install", (e) => {
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+});
+self.addEventListener("activate", (e) => {
+  e.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim()));
+});
+self.addEventListener("fetch", (e) => {
+  if (e.request.method !== "GET") return;
+  e.respondWith(
+    fetch(e.request)
+      .then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE).then((c) => c.put(e.request, copy));
+        return res;
+      })
+      .catch(() => caches.match(e.request))
+  );
+});
