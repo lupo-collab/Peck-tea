@@ -1,0 +1,9 @@
+{
+  "name": "Peck · Tè, tisane e infusi",
+  "short_name": "Peck Tè",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#5e4824",
+  "icons": [{ "src": "img/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
