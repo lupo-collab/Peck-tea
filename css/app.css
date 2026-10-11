@@ -10,6 +10,7 @@
   --on-brown: #fcb900;
   --gold: #fcb900;
   --gold-ink: #8a6400;
+  --logo: #8d784e;
   --cat-black: #6b3f22;
   --cat-green: #6f8a3a;
   --cat-white: #b9ab8c;
@@ -25,13 +26,13 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #17120c; --surface: #231b12; --ink: #f2eadc; --muted: #a8967c; --line: #3a2e20;
-    --brown: #3a2c17; --on-brown: #fcb900; --gold: #fcb900; --gold-ink: #fcb900;
+    --brown: #3a2c17; --on-brown: #fcb900; --gold: #fcb900; --gold-ink: #fcb900; --logo: #c9ad78;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #17120c; --surface: #231b12; --ink: #f2eadc; --muted: #a8967c; --line: #3a2e20;
-  --brown: #3a2c17; --on-brown: #fcb900; --gold: #fcb900; --gold-ink: #fcb900;
+  --brown: #3a2c17; --on-brown: #fcb900; --gold: #fcb900; --gold-ink: #fcb900; --logo: #c9ad78;
   color-scheme: dark;
 }
 
@@ -76,27 +77,16 @@ button { font: inherit; color: inherit; }
 .top .icon-btn:active { background: var(--surface); }
 .top .icon-btn svg { width: 22px; height: 22px; }
 [dir="rtl"] .top .back svg { transform: scaleX(-1); }
-.lang-btn { font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+.lang-btn { justify-self: end; }
 
-.wordmark { text-align: center; line-height: 1; user-select: none; }
-.wordmark b {
-  display: block;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 30px;
-  letter-spacing: .32em;
-  margin-inline-start: .32em;
-  color: var(--ink);
+.brand { justify-self: center; border: 0; background: none; padding: 0; cursor: pointer; display: grid; }
+.logo {
+  display: block; width: 34px; height: 45px;
+  background: var(--logo);
+  -webkit-mask: url("../img/peck-logo.png") center / contain no-repeat;
+  mask: url("../img/peck-logo.png") center / contain no-repeat;
 }
-.wordmark small {
-  display: block;
-  margin-top: 5px;
-  font-size: 10px;
-  letter-spacing: .42em;
-  margin-inline-start: .42em;
-  color: var(--gold-ink);
-  text-transform: uppercase;
-}
+.flag { display: block; width: 28px; height: 20px; border-radius: 3px; object-fit: cover; box-shadow: 0 0 0 1px var(--line); }
 
 .screen { display: flex; flex-direction: column; gap: 20px; padding-block: 24px 0; animation: in .25s ease-out; }
 @keyframes in { from { opacity: .4; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -117,17 +107,16 @@ h2 { font-size: 24px; }
 
 /* Lingua */
 .lang-hero { text-align: center; padding-block: 28px 8px; }
-.lang-hero .wordmark b { font-size: 52px; }
-.lang-hero .wordmark small { font-size: 12px; margin-top: 10px; }
+.lang-hero .logo { width: 104px; height: 137px; margin-inline: auto; }
 .lang-hero p { margin: 20px 0 0; color: var(--muted); font-size: 15px; }
 .lang-list { display: grid; gap: 10px; }
 .lang-list button {
-  display: flex; justify-content: space-between; align-items: center;
+  display: flex; justify-content: flex-start; gap: 16px; align-items: center;
   min-height: 58px; padding-inline: 20px;
   border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--bg); cursor: pointer; font-size: 20px; text-align: start;
 }
-.lang-list button span { font-size: 12px; letter-spacing: .12em; color: var(--muted); text-transform: uppercase; }
+.lang-list .flag { width: 36px; height: 24px; }
 .lang-list button:active, .lang-list button[aria-current="true"] { border-color: var(--gold-ink); background: var(--surface); }
 
 /* Home */

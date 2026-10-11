@@ -27,7 +27,8 @@ Poi apri http://localhost:8000. Per usarla dal telefono va pubblicata su un host
 | `js/data.js` | catalogo: 44 prodotti, origini e ingredienti tradotti (schema in testa al file) |
 | `js/desc/*.js` | descrizioni dei prodotti, un file per lingua (`it.js` è il testo originale) |
 | `js/app.js` | logica: lingua, consigli, catalogo, studio |
-| `img/` | icona (e in futuro le foto dei prodotti) |
+| `js/flags.js` | bandiere delle lingue (SVG) |
+| `img/` | logo Peck e icone dell'app |
 
 ## Catalogo
 
@@ -55,3 +56,8 @@ Le foto sono collegate, non salvate nel progetto: il telefono le carica da `imag
 1. Su GitHub apri il repository → **Settings** → **Pages**.
 2. In "Build and deployment" scegli **Deploy from a branch**, il branch `claude/funny-dijkstra-y6mqt0` (o `main` dopo il merge) e la cartella `/ (root)`.
 3. Dopo un paio di minuti l'app è su `https://<utente>.github.io/peck-tea/`. Aprila dal telefono e usa "Aggiungi a schermata Home".
+
+## Logo e bandiere
+
+- **Logo:** `img/peck-logo.png` è ritagliato dallo screenshot di peck.it caricato su Drive ("Peck") e reso trasparente. L'app lo usa come maschera, quindi prende il colore del tema (oro scuro in chiaro, oro chiaro in scuro). Nello screenshot il logo è piccolo (circa 50×70 pixel): se Peck fornisce il file originale (SVG o PNG grande), basta sostituire `img/peck-logo.png` e rigenerare `img/icon-*.png`.
+- **Bandiere:** disegnate in SVG dentro `js/flags.js`. Per l'arabo c'è la bandiera degli Emirati Arabi Uniti; si cambia in quello stesso file.

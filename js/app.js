@@ -77,9 +77,12 @@
   function header(showBack) {
     return '<header class="top">' +
       (showBack ? '<button class="icon-btn back" data-act="back" aria-label="' + esc(t("back")) + '">' + ICON_BACK + "</button>" : "<span></span>") +
-      '<div class="wordmark" data-act="home"><b>PECK</b><small>Milano 1883</small></div>' +
-      (state.lang ? '<button class="icon-btn lang-btn" data-act="lang" aria-label="' + esc(t("language")) + '">' + state.lang + "</button>" : "<span></span>") +
+      '<button class="brand" data-act="home" aria-label="Peck"><span class="logo"></span></button>' +
+      (state.lang ? '<button class="icon-btn lang-btn" data-act="lang" aria-label="' + esc(t("language")) + '">' + flag(state.lang) + "</button>" : "<span></span>") +
       "</header>";
+  }
+  function flag(code) {
+    return '<img class="flag" src="' + window.PECK_FLAGS[code] + '" alt="" width="28" height="20">';
   }
   function sampleNotice() { return window.PECK_SAMPLE ? '<p class="notice">' + esc(t("sample")) + "</p>" : ""; }
 
@@ -103,11 +106,11 @@
 
   // ---------- views ----------
   function viewLang() {
-    var h = '<main class="screen"><div class="lang-hero"><div class="wordmark"><b>PECK</b><small>Milano 1883</small></div>' +
+    var h = '<main class="screen"><div class="lang-hero"><span class="logo" role="img" aria-label="Peck"></span>' +
       "<p>Scegli la lingua · Choose your language</p></div><div class=\"lang-list\">";
     LANGS.forEach(function (l) {
       h += '<button data-act="setlang" data-lang="' + l.code + '" dir="' + l.dir + '" lang="' + l.code + '"' +
-        (state.lang === l.code ? ' aria-current="true"' : "") + ">" + esc(l.native) + "<span>" + l.code + "</span></button>";
+        (state.lang === l.code ? ' aria-current="true"' : "") + ">" + flag(l.code) + "<span>" + esc(l.native) + "</span></button>";
     });
     return (state.lang ? header(true) : "") + h + "</div></main>";
   }
