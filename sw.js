@@ -1,5 +1,5 @@
 // Cache offline: l'app funziona anche senza rete dopo la prima apertura.
-const CACHE = "peck-tea-v2";
+const CACHE = "peck-tea-v3";
 const ASSETS = ["./", "index.html", "css/app.css", "js/i18n.js", "js/data.js", "js/desc/it.js", "js/desc/en.js", "js/desc/fr.js", "js/desc/es.js", "js/desc/ru.js", "js/desc/zh.js", "js/desc/ar.js", "js/app.js", "img/icon.svg", "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {

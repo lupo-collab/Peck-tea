@@ -197,3 +197,43 @@ window.PECK_SAMPLE = false;
     window.PECK_INGREDIENTS[k] = o;
   });
 })();
+
+// Foto illustrative da Pexels (licenza Pexels: uso gratuito, attribuzione non obbligatoria).
+// NON ritraggono i prodotti Peck: rappresentano il tipo di tè. id = numero della foto su pexels.com.
+window.PECK_PHOTOS = {
+  "loose-flatlay": 33118330,     // Artistic Flat Lay of Teapot and Loose Tea Leaves
+  "cha-he": 6545351,             // Tea in Cha He on Tea Ceremony
+  "gaiwan-green": 5975975,       // Gaiwan Pot with Green Tea Leaves Prepared for Brewing
+  "gaiwan-pour": 6545346,        // Hand Holding Ceramic Gaiwan and Pouring Tea in Glass Teapot
+  "dark-leaves": 6351839,        // Top View of Oolong Tea
+  "green-glass": 1638278,        // Green Leaves in Clear Glass Cup
+  "green-white": 4390014,        // Green tea with leaves on white background
+  "herbal-loose": 32908162,      // Close-up of Dried Herbal Tea Leaves
+  "herbs-spoon": 6694167,        // Dried Herbs on Wooden Spoon (camomilla e lavanda)
+  "herbs-jars": 16716139,        // Tea in Glasses by Herbs in Glass Bottles
+  "spices": 1590139,             // Assorted Seasoning in White Ceramic Spoon
+  "hibiscus-cup": 8678927,       // A Hibiscus Tea
+  "hibiscus-leaves": 6507025,    // Tea With Hibiscus Leaves
+  "fruit-cup": 11470219,         // Fruit Tea in a Cup
+  "moroccan-set": 30906052,      // Traditional Moroccan Mint Tea Set on Red Rug
+  "mint-fresh": 5275234,         // Refreshing tea with green mint
+  "kettle-pour": 230477,         // Gold Kettle Pouring Hot Water on Cup of Tea
+  "cup-pour": 3889844,           // A Person Pouring Tea in the Cup
+};
+(function () {
+  var map = {
+    "long-jing": "gaiwan-green", "jin-ya-hong-cha": "cha-he", "white-monkey": "gaiwan-green", "yunnan-silver-bud": "gaiwan-pour",
+    "assam-halmari": "loose-flatlay", "assam-mangalam": "loose-flatlay", "assam-orangajulli": "loose-flatlay", "assam-thowra": "loose-flatlay",
+    "darjeeling-margarets-hope": "cup-pour", "darjeeling-selimbong": "cup-pour", "darjeeling-lingia": "cup-pour", "darjeeling-castleton": "cup-pour",
+    "ceylon-pettiagalla": "kettle-pour", "ceylon-kenylworth": "kettle-pour",
+    "lady-chatterley": "green-white", "earl-grey": "loose-flatlay", "caribbean-kiss": "herbal-loose", "princess-shahrazad": "gaiwan-green",
+    "oriental-tchay": "spices", "ryokan-dew": "herbal-loose", "pleasure-forest": "loose-flatlay", "majorelle-garden": "moroccan-set",
+    "exotic-love": "fruit-cup", "heart-melodies": "herbal-loose", "sweet-temptation": "hibiscus-cup", "spicy-yoga": "spices",
+    "pai-mu-tan": "gaiwan-pour", "english-breakfast": "kettle-pour", "afternoon-tea": "cup-pour", "irish-breakfast": "kettle-pour",
+    "tou-cha-1998": "dark-leaves", "fu-zi-zhuan-1987": "dark-leaves",
+    "bancha": "green-glass", "sencha-fuji": "green-glass", "kukicha": "green-white", "gyokuro-asahi": "green-glass", "gyokuro-hiki": "green-white",
+    "secret-eyes": "mint-fresh", "childhood-memories": "hibiscus-leaves", "aurora-borealis": "spices", "rooibos-prugna": "hibiscus-leaves",
+    "lavanda-lampone": "herbs-spoon", "gelsomino-agrumi": "herbs-jars", "erbe-montagna-miele": "herbs-spoon",
+  };
+  window.PECK_TEAS.forEach(function (t) { t.photo = window.PECK_PHOTOS[map[t.id]] || null; });
+})();

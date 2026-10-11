@@ -43,3 +43,15 @@ Cosa viene dal PDF e cosa no:
 Quattro prodotti non hanno descrizione nel PDF (Aurora Borealis, Rooibos alla prugna, Tè verde e bianco al gelsomino e agrumi, Infuso alle erbe di montagna e miele): l'app mostra ingredienti e preparazione.
 
 Per aggiungere un prodotto: aggiungi una riga `P(...)` in `js/data.js` e la descrizione con lo stesso `id` in ciascun file di `js/desc/`.
+
+## Foto
+
+Le foto sono illustrative e **non ritraggono i prodotti Peck**: rappresentano il tipo di tè (sfuso, gaiwan, tè alla menta, spezie, fiori secchi…). Vengono da [Pexels](https://www.pexels.com/license/), che ne permette l'uso gratuito anche commerciale senza obbligo di attribuzione; l'app mostra comunque "Foto indicativa · Pexels".
+
+Le foto sono collegate, non salvate nel progetto: il telefono le carica da `images.pexels.com` (dopo la prima apertura restano in cache per l'uso offline). Se una foto non si carica, al suo posto compare il riquadro colorato della categoria. L'elenco delle foto e l'abbinamento ai prodotti sono in fondo a `js/data.js`: per sostituirne una basta cambiare il numero della foto Pexels.
+
+## Pubblicazione con GitHub Pages
+
+1. Su GitHub apri il repository → **Settings** → **Pages**.
+2. In "Build and deployment" scegli **Deploy from a branch**, il branch `claude/funny-dijkstra-y6mqt0` (o `main` dopo il merge) e la cartella `/ (root)`.
+3. Dopo un paio di minuti l'app è su `https://<utente>.github.io/peck-tea/`. Aprila dal telefono e usa "Aggiungi a schermata Home".

@@ -62,9 +62,14 @@
   }
 
   var LEAF = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19c0-8 5-14 15-15-1 10-7 15-15 15Z" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.85)" stroke-width="1.2"/><path d="M5 19 15 9" stroke="rgba(255,255,255,.85)" stroke-width="1.2" stroke-linecap="round"/></svg>';
+  // Foto Pexels sopra il riquadro colorato: se non si carica (offline, rete bloccata) resta il riquadro.
+  function photoUrl(id, w) {
+    return "https://images.pexels.com/photos/" + id + "/pexels-photo-" + id + ".jpeg?auto=compress&cs=tinysrgb&fit=crop&w=" + w + "&h=" + Math.round(w * (w > 300 ? 0.75 : 1));
+  }
   function thumb(tea, cls) {
-    var inner = tea.image ? '<img src="' + esc(tea.image) + '" alt="" loading="lazy">' : LEAF;
-    return '<div class="thumb ' + (cls || "") + '" style="--cat: var(--cat-' + tea.category + ')">' + inner + "</div>";
+    var big = cls === "hero-img" || cls === "card-img";
+    var img = tea.photo ? '<img src="' + photoUrl(tea.photo, big ? 900 : 200) + '" alt="" loading="lazy" decoding="async" onerror="var f=this.closest(\'figure\');if(f)f.classList.add(\'nophoto\');this.remove()">' : "";
+    return '<div class="thumb ' + (cls || "") + '" style="--cat: var(--cat-' + tea.category + ')">' + LEAF + img + "</div>";
   }
 
   var ICON_BACK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
@@ -204,7 +209,8 @@
 
   function viewTea(id) {
     var tea = byId(id);
-    return header(true) + '<main class="screen">' + thumb(tea, "hero-img") +
+    return header(true) + '<main class="screen"><figure class="hero">' + thumb(tea, "hero-img") +
+      (tea.photo ? '<figcaption>' + esc(t("photoNote")) + "</figcaption>" : "") + "</figure>" +
       '<div><p class="eyebrow">' + esc(t("cat_" + tea.category)) + "</p><h1>" + esc(loc(tea.name)) + "</h1></div>" +
       '<div class="chips"><span class="chip gold">' + esc(t("caf_" + tea.caffeine)) + "</span>" + (tea.iced ? '<span class="chip gold">' + esc(t("iced")) + "</span>" : "") + "</div>" +
       (desc(tea) ? '<p class="desc">' + esc(desc(tea)) + "</p>" : "") +
@@ -226,7 +232,7 @@
     }
     var tea = byId(s.order[s.i]);
     h += '<button class="flip' + (s.flipped ? " flipped" : "") + '" data-act="flip" aria-live="polite"><div class="flip-inner">' +
-      '<div class="face front">' + thumb(tea) + "<h2>" + esc(loc(tea.name)) + '</h2><p class="hint">' + esc(t("flip")) + "</p></div>" +
+      '<div class="face front">' + thumb(tea, "card-img") + "<h2>" + esc(loc(tea.name)) + '</h2><p class="hint">' + esc(t("flip")) + "</p></div>" +
       '<div class="face back"><p class="eyebrow">' + esc(t("cat_" + tea.category)) + " · " + esc(t("caf_" + tea.caffeine)) + "</p>" +
       "<h2>" + esc(loc(tea.name)) + "</h2>" + (desc(tea) ? '<p class="desc">' + esc(desc(tea)) + "</p>" : "") + brewBlock(tea) + teaFacts(tea) + "</div>" +
       "</div></button>" +
