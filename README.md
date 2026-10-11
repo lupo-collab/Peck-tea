@@ -24,10 +24,22 @@ Poi apri http://localhost:8000. Per usarla dal telefono va pubblicata su un host
 | `index.html` | pagina dell'app |
 | `css/app.css` | stile e colori Peck |
 | `js/i18n.js` | testi dell'interfaccia nelle 7 lingue |
-| `js/data.js` | catalogo prodotti (schema descritto in testa al file) |
+| `js/data.js` | catalogo: 44 prodotti, origini e ingredienti tradotti (schema in testa al file) |
+| `js/desc/*.js` | descrizioni dei prodotti, un file per lingua (`it.js` è il testo originale) |
 | `js/app.js` | logica: lingua, consigli, catalogo, studio |
-| `img/` | icona e foto dei prodotti |
+| `img/` | icona (e in futuro le foto dei prodotti) |
 
 ## Catalogo
 
-`js/data.js` contiene per ora **6 prodotti di esempio** generici, segnalati nell'app come tali. Vanno sostituiti con le schede del PDF `Digitalizzato_20261011-1104`. Quando il catalogo vero è caricato, impostare `window.PECK_SAMPLE = false`.
+Fonte: PDF `Digitalizzato_20261011-1104`, trascritto nel Google Doc "Peck catalogo tè" (44 schede, pagine 1–45; la pagina 40 non ha una scheda). Ogni prodotto riporta il numero di pagina del PDF (`page`).
+
+Cosa viene dal PDF e cosa no:
+
+- **Dal PDF:** nome, categoria, descrizione, origine, ingredienti, temperatura, tempo di infusione, grammi, gusti, momenti e "da bere in purezza" quando citati.
+- **Stimato:** il livello di teina, che il PDF non indica, è assegnato in base al tipo di tè (tisane, rooibos e infusi di frutta senza teina).
+- **Dedotto dagli ingredienti:** i gusti di "Aurora Borealis" (speziato) e "Infuso alle erbe di montagna e miele" (floreale, dolce), per cui il PDF non ne indica.
+- **Tradotto:** descrizioni, origini, ingredienti e nomi descrittivi nelle altre 6 lingue.
+
+Quattro prodotti non hanno descrizione nel PDF (Aurora Borealis, Rooibos alla prugna, Tè verde e bianco al gelsomino e agrumi, Infuso alle erbe di montagna e miele): l'app mostra ingredienti e preparazione.
+
+Per aggiungere un prodotto: aggiungi una riga `P(...)` in `js/data.js` e la descrizione con lo stesso `id` in ciascun file di `js/desc/`.

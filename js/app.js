@@ -44,6 +44,22 @@
     return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; });
   }
   function byId(id) { return TEAS.filter(function (x) { return x.id === id; })[0]; }
+  function desc(tea) {
+    var D = window.PECK_DESC || {};
+    return (D[state.lang] && D[state.lang][tea.id]) || (D.it && D.it[tea.id]) || "";
+  }
+  function origin(tea) { return tea.origin ? loc(window.PECK_ORIGINS[tea.origin]) : ""; }
+  function ingredientList(tea) {
+    return tea.ingredients.map(function (k) {
+      var parts = k.split(":");
+      var name = loc(window.PECK_INGREDIENTS[parts[0]]) || parts[0];
+      return parts[1] ? name + " " + parts[1] + "%" : name;
+    });
+  }
+  function range(r) {
+    if (!r || !r.length) return "–";
+    return r.length > 1 && r[0] !== r[1] ? r[0] + "–" + r[1] : String(r[0]);
+  }
 
   var LEAF = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19c0-8 5-14 15-15-1 10-7 15-15 15Z" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.85)" stroke-width="1.2"/><path d="M5 19 15 9" stroke="rgba(255,255,255,.85)" stroke-width="1.2" stroke-linecap="round"/></svg>';
   function thumb(tea, cls) {
@@ -120,8 +136,10 @@
       if (a.caffeine === "yes") score += { none: -3, low: 0, medium: 2, high: 3 }[tea.caffeine];
       if (a.temp === "iced") { if (!tea.iced) return null; score += 1; }
       if (tea.moments.indexOf(a.moment) >= 0) score += 3;
+      else if (!tea.moments.length) score += 1;
       if (a.moment === "evening" && (tea.caffeine === "high" || tea.caffeine === "medium")) score -= 3;
       if (tea.flavors.indexOf(a.flavor) >= 0) score += 5;
+      else score -= 2;
       return { tea: tea, score: score };
     }).filter(function (x) { return x && x.score > 0; });
     scored.sort(function (x, y) { return y.score - x.score; });
@@ -137,7 +155,7 @@
   }
 
   function haystack(tea) {
-    var parts = [loc(tea.name), loc(tea.origin), loc(tea.desc), t("cat_" + tea.category)];
+    var parts = [loc(tea.name), origin(tea), desc(tea), t("cat_" + tea.category)].concat(ingredientList(tea));
     tea.flavors.forEach(function (f) { parts.push(t("f_" + f)); });
     if (typeof tea.name === "object") Object.keys(tea.name).forEach(function (k) { parts.push(tea.name[k]); });
     return parts.join(" ").toLowerCase();
@@ -164,17 +182,24 @@
     return h;
   }
 
+  function chipList(items, prefix) {
+    return items.map(function (x) { return '<span class="chip">' + esc(t(prefix + x)) + "</span>"; }).join("");
+  }
   function teaFacts(tea) {
-    return '<dl class="facts">' +
-      "<div><dt>" + esc(t("taste")) + '</dt><dd class="chips">' + tea.flavors.map(function (f) { return '<span class="chip">' + esc(t("f_" + f)) + "</span>"; }).join("") + "</dd></div>" +
-      "<div><dt>" + esc(t("pairing")) + '</dt><dd class="chips">' + tea.pairing.map(function (p) { return '<span class="chip">' + esc(t("p_" + p)) + "</span>"; }).join("") + "</dd></div>" +
-      "<div><dt>" + esc(t("origin")) + "</dt><dd>" + esc(loc(tea.origin)) + "</dd></div></dl>";
+    var h = '<dl class="facts">';
+    if (tea.flavors.length) h += "<div><dt>" + esc(t("taste")) + '</dt><dd class="chips">' + chipList(tea.flavors, "f_") + "</dd></div>";
+    if (tea.moments.length) h += "<div><dt>" + esc(t("q_moment").replace(/[?？؟]/g, "")) + '</dt><dd class="chips">' + chipList(tea.moments, "m_") + "</dd></div>";
+    if (tea.pairing.length) h += "<div><dt>" + esc(t("pairing")) + '</dt><dd class="chips">' + chipList(tea.pairing, "p_") + "</dd></div>";
+    if (tea.origin) h += "<div><dt>" + esc(t("origin")) + "</dt><dd>" + esc(origin(tea)) + "</dd></div>";
+    if (tea.ingredients.length) h += "<div><dt>" + esc(t("ingredients")) + "</dt><dd>" + esc(ingredientList(tea).join({ zh: "、", ar: "، " }[state.lang] || ", ")) + "</dd></div>";
+    return h + "</dl>";
   }
   function brewBlock(tea) {
     var b = tea.brew;
-    return '<div class="brew"><div><b>' + b.temp + "°</b><span>" + esc(t("temp")) + " °C</span></div>" +
-      "<div><b>" + b.time + "</b><span>" + esc(t("time")) + " · " + esc(t("minutes")) + "</span></div>" +
-      "<div><b>" + b.grams + "</b><span>" + esc(t("grams")) + "</span></div></div>";
+    if (!b) return "";
+    return '<p class="eyebrow">' + esc(t("brewing")) + '</p><div class="brew"><div><b>' + (b.temp == null ? "–" : b.temp + "°") + "</b><span>" + esc(t("temp")) + " °C</span></div>" +
+      "<div><b>" + range(b.time) + "</b><span>" + esc(t("time")) + " · " + esc(t("minutes")) + "</span></div>" +
+      "<div><b>" + range(b.grams) + "</b><span>" + esc(t("grams")) + "</span></div></div>";
   }
 
   function viewTea(id) {
@@ -182,8 +207,8 @@
     return header(true) + '<main class="screen">' + thumb(tea, "hero-img") +
       '<div><p class="eyebrow">' + esc(t("cat_" + tea.category)) + "</p><h1>" + esc(loc(tea.name)) + "</h1></div>" +
       '<div class="chips"><span class="chip gold">' + esc(t("caf_" + tea.caffeine)) + "</span>" + (tea.iced ? '<span class="chip gold">' + esc(t("iced")) + "</span>" : "") + "</div>" +
-      '<p class="desc">' + esc(loc(tea.desc)) + "</p>" +
-      '<p class="eyebrow">' + esc(t("brewing")) + "</p>" + brewBlock(tea) + teaFacts(tea) + "</main>";
+      (desc(tea) ? '<p class="desc">' + esc(desc(tea)) + "</p>" : "") +
+      brewBlock(tea) + teaFacts(tea) + "</main>";
   }
 
   function shuffledDeck() {
@@ -203,7 +228,7 @@
     h += '<button class="flip' + (s.flipped ? " flipped" : "") + '" data-act="flip" aria-live="polite"><div class="flip-inner">' +
       '<div class="face front">' + thumb(tea) + "<h2>" + esc(loc(tea.name)) + '</h2><p class="hint">' + esc(t("flip")) + "</p></div>" +
       '<div class="face back"><p class="eyebrow">' + esc(t("cat_" + tea.category)) + " · " + esc(t("caf_" + tea.caffeine)) + "</p>" +
-      "<h2>" + esc(loc(tea.name)) + '</h2><p class="desc">' + esc(loc(tea.desc)) + "</p>" + brewBlock(tea) + teaFacts(tea) + "</div>" +
+      "<h2>" + esc(loc(tea.name)) + "</h2>" + (desc(tea) ? '<p class="desc">' + esc(desc(tea)) + "</p>" : "") + brewBlock(tea) + teaFacts(tea) + "</div>" +
       "</div></button>" +
       '<div class="study-actions"><button class="btn" data-act="again">' + esc(t("again")) + '</button><button class="btn solid" data-act="know">' + esc(t("know")) + "</button></div>";
     return h + "</main>";
