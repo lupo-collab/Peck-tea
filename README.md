@@ -60,4 +60,5 @@ Le foto sono collegate, non salvate nel progetto: il telefono le carica da `imag
 ## Logo e bandiere
 
 - **Logo:** `img/peck-logo.png` è ritagliato dallo screenshot di peck.it caricato su Drive ("Peck") e reso trasparente. L'app lo usa come maschera, quindi prende il colore del tema (oro scuro in chiaro, oro chiaro in scuro). Nello screenshot il logo è piccolo (circa 50×70 pixel): se Peck fornisce il file originale (SVG o PNG grande), basta sostituire `img/peck-logo.png` e rigenerare `img/icon-*.png`.
+- **Carattere:** Raleway (Google Fonts), lo stesso di peck.it: titoli in neretto 800, etichette e pulsanti in 700.
 - **Bandiere:** disegnate in SVG dentro `js/flags.js`. Per l'arabo c'è la bandiera degli Emirati Arabi Uniti; si cambia in quello stesso file.
