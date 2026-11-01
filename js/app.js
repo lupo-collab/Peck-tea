@@ -48,6 +48,10 @@
     var D = window.PECK_DESC || {};
     return (D[state.lang] && D[state.lang][tea.id]) || (D.it && D.it[tea.id]) || "";
   }
+  function pitch(tea) {
+    var P = window.PECK_PITCH || {};
+    return (P[state.lang] && P[state.lang][tea.id]) || (P.it && P.it[tea.id]) || "";
+  }
   function origin(tea) { return tea.origin ? loc(window.PECK_ORIGINS[tea.origin]) : ""; }
   function ingredientList(tea) {
     return tea.ingredients.map(function (k) {
@@ -93,16 +97,55 @@
   }
 
   // ---------- navigation ----------
+  // Ogni schermata lasciata ricorda la posizione di scorrimento: tornando indietro si riparte da lì.
+  // Ogni passo crea anche una voce nella cronologia del browser, così funziona il tasto/gesto "indietro" del telefono.
+  var pushed = 0, ignorePop = false;
+  try { history.scrollRestoration = "manual"; } catch (e) {}
+
   function go(view, push) {
-    if (push !== false && state.view) stack.push(state.view);
+    if (push !== false && state.view) {
+      state.view.scroll = window.scrollY;
+      stack.push(state.view);
+      try { history.pushState({ peck: stack.length }, ""); pushed++; } catch (e) {}
+    }
+    state.view = view;
+    render();
+    window.scrollTo(0, 0);
+  }
+  function resetTo(view) {
+    stack = [];
+    if (pushed > 0) {
+      ignorePop = true;
+      try { history.go(-pushed); } catch (e) { ignorePop = false; }
+      pushed = 0;
+    }
     state.view = view;
     render();
     window.scrollTo(0, 0);
   }
   function back() {
-    state.view = stack.pop() || { name: "home" };
-    render();
+    var v = stack.pop() || { name: "home" };
+    state.view = v;
+    render(true);
+    var y = v.scroll || 0;
+    window.scrollTo(0, y);
+    requestAnimationFrame(function () { window.scrollTo(0, y); });
+    if (v.lastId) {
+      var row = root.querySelector('.tea-row[data-id="' + v.lastId + '"]');
+      if (row) {
+        row.classList.add("recent");
+        var r = row.getBoundingClientRect();
+        if (r.top < 0 || r.bottom > window.innerHeight) row.scrollIntoView({ block: "center" });
+      }
+    }
   }
+  function goBack() {
+    if (pushed > 0) history.back(); else back();
+  }
+  window.addEventListener("popstate", function () {
+    if (ignorePop) { ignorePop = false; return; }
+    if (pushed > 0) { pushed--; back(); }
+  });
 
   // ---------- views ----------
   function viewLang() {
@@ -163,7 +206,7 @@
   }
 
   function haystack(tea) {
-    var parts = [loc(tea.name), origin(tea), desc(tea), t("cat_" + tea.category)].concat(ingredientList(tea));
+    var parts = [loc(tea.name), origin(tea), desc(tea), pitch(tea), t("cat_" + tea.category)].concat(ingredientList(tea));
     tea.flavors.forEach(function (f) { parts.push(t("f_" + f)); });
     if (typeof tea.name === "object") Object.keys(tea.name).forEach(function (k) { parts.push(tea.name[k]); });
     return parts.join(" ").toLowerCase();
@@ -198,9 +241,25 @@
     if (tea.flavors.length) h += "<div><dt>" + esc(t("taste")) + '</dt><dd class="chips">' + chipList(tea.flavors, "f_") + "</dd></div>";
     if (tea.moments.length) h += "<div><dt>" + esc(t("q_moment").replace(/[?？؟]/g, "")) + '</dt><dd class="chips">' + chipList(tea.moments, "m_") + "</dd></div>";
     if (tea.pairing.length) h += "<div><dt>" + esc(t("pairing")) + '</dt><dd class="chips">' + chipList(tea.pairing, "p_") + "</dd></div>";
-    if (tea.origin) h += "<div><dt>" + esc(t("origin")) + "</dt><dd>" + esc(origin(tea)) + "</dd></div>";
-    if (tea.ingredients.length) h += "<div><dt>" + esc(t("ingredients")) + "</dt><dd>" + esc(ingredientList(tea).join({ zh: "、", ar: "، " }[state.lang] || ", ")) + "</dd></div>";
     return h + "</dl>";
+  }
+  function section(title, body) {
+    return '<section class="sec"><h2 class="sec-title">' + esc(title) + "</h2>" + body + "</section>";
+  }
+  // Composizione: ingredienti del PDF, oppure blend di tè neri, oppure tè puro.
+  function mixText(tea) {
+    if (tea.ingredients.length) return ingredientList(tea).join({ zh: "、", ar: "، " }[state.lang] || ", ");
+    if (tea.blend) return t("blendOf", { o: origin(tea) });
+    return t("pure");
+  }
+  var CAF_LEVEL = { none: 0, low: 1, medium: 2, high: 3 };
+  function caffeineBlock(tea) {
+    var n = CAF_LEVEL[tea.caffeine], bars = "";
+    for (var i = 1; i <= 3; i++) bars += '<i class="' + (i <= n ? "on" : "") + '"></i>';
+    return '<div class="meter-row"><span class="meter" role="img" aria-label="' + esc(t("caf_" + tea.caffeine)) + '">' + bars + "</span>" +
+      "<strong>" + esc(t("caf_" + tea.caffeine)) + "</strong></div>" +
+      "<p>" + esc(tea.cocoa ? t("caf_cocoa") : t("caf_txt_" + tea.caffeine)) + "</p>" +
+      '<p class="note">' + esc(t("caf_note")) + "</p>";
   }
   function brewBlock(tea) {
     var b = tea.brew;
@@ -216,8 +275,13 @@
       (tea.photo ? '<figcaption>' + esc(t("photoNote")) + "</figcaption>" : "") + "</figure>" +
       '<div><p class="eyebrow">' + esc(t("cat_" + tea.category)) + "</p><h1>" + esc(loc(tea.name)) + "</h1></div>" +
       '<div class="chips"><span class="chip gold">' + esc(t("caf_" + tea.caffeine)) + "</span>" + (tea.iced ? '<span class="chip gold">' + esc(t("iced")) + "</span>" : "") + "</div>" +
-      (desc(tea) ? '<p class="desc">' + esc(desc(tea)) + "</p>" : "") +
-      brewBlock(tea) + teaFacts(tea) + "</main>";
+      (pitch(tea) ? section(t("sec_why"), '<p class="pitch">' + esc(pitch(tea)) + "</p>") : "") +
+      brewBlock(tea) + teaFacts(tea) +
+      section(t("sec_origin"), (tea.origin ? '<p class="lead-line">' + esc(origin(tea)) + "</p>" : "") + "<p>" + esc(t("cat_txt_" + tea.category)) + "</p>") +
+      section(t("sec_mix"), "<p>" + esc(mixText(tea)) + "</p>") +
+      section(t("sec_caffeine"), caffeineBlock(tea)) +
+      (desc(tea) ? section(t("sec_story"), '<p class="desc">' + esc(desc(tea)) + "</p>") : "") +
+      "</main>";
   }
 
   function shuffledDeck() {
@@ -237,14 +301,15 @@
     h += '<button class="flip' + (s.flipped ? " flipped" : "") + '" data-act="flip" aria-live="polite"><div class="flip-inner">' +
       '<div class="face front">' + thumb(tea, "card-img") + "<h2>" + esc(loc(tea.name)) + '</h2><p class="hint">' + esc(t("flip")) + "</p></div>" +
       '<div class="face back"><p class="eyebrow">' + esc(t("cat_" + tea.category)) + " · " + esc(t("caf_" + tea.caffeine)) + "</p>" +
-      "<h2>" + esc(loc(tea.name)) + "</h2>" + (desc(tea) ? '<p class="desc">' + esc(desc(tea)) + "</p>" : "") + brewBlock(tea) + teaFacts(tea) + "</div>" +
+      "<h2>" + esc(loc(tea.name)) + "</h2>" + (pitch(tea) ? '<p class="desc">' + esc(pitch(tea)) + "</p>" : "") + brewBlock(tea) + teaFacts(tea) +
+      section(t("sec_mix"), "<p>" + esc(mixText(tea)) + "</p>") + "</div>" +
       "</div></button>" +
       '<div class="study-actions"><button class="btn" data-act="again">' + esc(t("again")) + '</button><button class="btn solid" data-act="know">' + esc(t("know")) + "</button></div>";
     return h + "</main>";
   }
 
   // ---------- render ----------
-  function render() {
+  function render(restoring) {
     var meta = LANGS.filter(function (l) { return l.code === state.lang; })[0];
     document.documentElement.lang = state.lang || "it";
     document.documentElement.dir = meta ? meta.dir : "ltr";
@@ -255,7 +320,7 @@
       : v.name === "tea" ? viewTea(v.id)
       : v.name === "study" ? viewStudy()
       : viewHome();
-    root.innerHTML = '<div class="app">' + html + "</div>";
+    root.innerHTML = '<div class="app' + (restoring ? " restored" : "") + '">' + html + "</div>";
     var search = document.getElementById("search");
     if (search) search.addEventListener("input", function () {
       state.catalog.q = search.value;
@@ -271,12 +336,11 @@
       case "setlang":
         state.lang = el.getAttribute("data-lang");
         store.set("lang", state.lang);
-        stack = [];
-        go({ name: "home" }, false);
+        resetTo({ name: "home" });
         break;
       case "lang": go({ name: "lang" }); break;
-      case "back": back(); break;
-      case "home": if (state.lang) { stack = []; go({ name: "home" }, false); } break;
+      case "back": goBack(); break;
+      case "home": if (state.lang) resetTo({ name: "home" }); break;
       case "advise":
         state.quiz = { step: 0, answers: {} };
         if (state.view.name === "quiz") { render(); window.scrollTo(0, 0); } else go({ name: "quiz" });
@@ -288,7 +352,10 @@
         break;
       case "catalog": go({ name: "catalog" }); break;
       case "cat": state.catalog.cat = el.getAttribute("data-cat"); render(); break;
-      case "tea": go({ name: "tea", id: el.getAttribute("data-id") }); break;
+      case "tea":
+        state.view.lastId = el.getAttribute("data-id");
+        go({ name: "tea", id: state.view.lastId });
+        break;
       case "study":
         state.study = { order: shuffledDeck(), i: 0, flipped: false };
         go({ name: "study" });

@@ -4,7 +4,7 @@ Webapp per telefono che aiuta a conoscere e consigliare la selezione di tè, tis
 
 - **Prima schermata:** scelta della lingua (italiano, inglese, francese, spagnolo, russo, cinese, arabo con testo da destra a sinistra).
 - **Consigliami:** 4 domande (momento, teina, gusto, caldo o freddo) e fino a 3 proposte.
-- **Catalogo:** ricerca e filtri per categoria, scheda prodotto con preparazione (°C, minuti, grammi), gusto, abbinamenti, origine.
+- **Catalogo:** ricerca e filtri per categoria. La scheda prodotto ha: perché sceglierlo, preparazione (°C, minuti, grammi), gusto, provenienza e tipo di tè, cosa contiene, teina (indicatore e mg indicativi per tazza), testo originale del catalogo. Tornando indietro la lista riprende dal punto in cui eri, con il prodotto appena visto evidenziato; funziona anche il tasto/gesto «indietro» del telefono.
 - **Studia:** schede da girare per imparare il catalogo; i progressi restano salvati sul telefono.
 
 Statica, senza build: HTML, CSS e JavaScript. Installabile sulla schermata home e utilizzabile offline (service worker).
@@ -26,6 +26,7 @@ Poi apri http://localhost:8000. Per usarla dal telefono va pubblicata su un host
 | `js/i18n.js` | testi dell'interfaccia nelle 7 lingue |
 | `js/data.js` | catalogo: 44 prodotti, origini e ingredienti tradotti (schema in testa al file) |
 | `js/desc/*.js` | descrizioni dei prodotti, un file per lingua (`it.js` è il testo originale) |
+| `js/pitch/*.js` | testi di vendita «Perché sceglierlo», un file per lingua |
 | `js/app.js` | logica: lingua, consigli, catalogo, studio |
 | `js/flags.js` | bandiere delle lingue (SVG) |
 | `img/` | logo Peck e icone dell'app |
@@ -37,13 +38,14 @@ Fonte: PDF `Digitalizzato_20261011-1104`, trascritto nel Google Doc "Peck catalo
 Cosa viene dal PDF e cosa no:
 
 - **Dal PDF:** nome, categoria, descrizione, origine, ingredienti, temperatura, tempo di infusione, grammi, gusti, momenti e "da bere in purezza" quando citati.
-- **Stimato:** il livello di teina, che il PDF non indica, è assegnato in base al tipo di tè (tisane, rooibos e infusi di frutta senza teina).
+- **Stimato:** il livello di teina, che il PDF non indica, è assegnato in base al tipo di tè (tisane, rooibos e infusi di frutta senza teina; Heart Melodies «poca» per la caffeina naturale del cacao). I mg per tazza mostrati nell'app sono valori indicativi per tipo di tè.
+- **Testi di vendita («Perché sceglierlo»):** scritti a partire dalle schede del PDF e da caratteristiche note del tipo di tè (provenienza, lavorazione, abbinamenti consigliati); non contengono dati inventati su raccolti, premi o prezzi. Le versioni non italiane vanno fatte rivedere da madrelingua.
 - **Dedotto dagli ingredienti:** i gusti di "Aurora Borealis" (speziato) e "Infuso alle erbe di montagna e miele" (floreale, dolce), per cui il PDF non ne indica.
 - **Tradotto:** descrizioni, origini, ingredienti e nomi descrittivi nelle altre 6 lingue.
 
 Quattro prodotti non hanno descrizione nel PDF (Aurora Borealis, Rooibos alla prugna, Tè verde e bianco al gelsomino e agrumi, Infuso alle erbe di montagna e miele): l'app mostra ingredienti e preparazione.
 
-Per aggiungere un prodotto: aggiungi una riga `P(...)` in `js/data.js` e la descrizione con lo stesso `id` in ciascun file di `js/desc/`.
+Per aggiungere un prodotto: aggiungi una riga `P(...)` in `js/data.js`, la descrizione con lo stesso `id` in ciascun file di `js/desc/` e il testo di vendita in ciascun file di `js/pitch/`.
 
 ## Foto
 

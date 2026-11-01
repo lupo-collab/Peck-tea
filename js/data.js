@@ -6,6 +6,7 @@
 //   name       nome come nel catalogo (stringa o { it, en, ... } se descrittivo)
 //   category   black | green | white | oolong | puerh | herbal | rooibos | fruit
 //   caffeine   none | low | medium | high. NON indicata nel PDF: stimata in base al tipo di tè
+//              (Heart Melodies: low per la caffeina naturale del cacao)
 //   flavors    floral fruity spicy citrus earthy sweet fresh (dal PDF)
 //   moments    morning afternoon evening afterMeal (solo se il PDF lo dice)
 //   pairing    plain = "da bere in purezza" (solo se il PDF lo dice)
@@ -59,7 +60,7 @@ window.PECK_SAMPLE = false;
     P("ceylon-kenylworth", 22, "Ceylon Kenylworth F.O.P.", "black", "high", null, null, null, false, "ceylon", B(95, [2, 3], [2, 3])),
     P("exotic-love", 23, "Exotic Love", "fruit", "none", ["fruity", "citrus"], null, null, false, null, B(95, [4, 5], [3]),
       ["papaya", "mango", "apple", "hibiscus_buds", "flavouring", "orange", "pomegranate", "safflower"]),
-    P("heart-melodies", 24, "Heart Melodies", "herbal", "none", ["citrus"], null, null, false, null, B(95, [4, 5], [3]),
+    P("heart-melodies", 24, "Heart Melodies", "herbal", "low", ["citrus"], null, null, false, null, B(95, [4, 5], [3]),
       ["cocoa_husk", "apple", "orange_peel", "cocoa_nibs", "lemongrass", "flavouring", "rose_hip", "nettle_leaves", "blackberry_leaves"]),
     P("sweet-temptation", 25, "Sweet Temptation", "herbal", "none", ["fruity", "spicy"], ["evening"], null, false, null, B(95, [4, 5], [3]),
       ["cranberry", "apple", "mistletoe", "star_anise", "cinnamon", "flavouring", "blackberry_leaves", "cranberry_fd", "safflower"]),
@@ -236,4 +237,8 @@ window.PECK_PHOTOS = {
     "lavanda-lampone": "herbs-spoon", "gelsomino-agrumi": "herbs-jars", "erbe-montagna-miele": "herbs-spoon",
   };
   window.PECK_TEAS.forEach(function (t) { t.photo = window.PECK_PHOTOS[map[t.id]] || null; });
+  // Blend di tè neri senza ingredienti elencati nel PDF; caffeina dal cacao (buccia e granella) invece che dal tè.
+  ["english-breakfast", "afternoon-tea", "irish-breakfast"].forEach(function (id) { byId(id).blend = true; });
+  byId("heart-melodies").cocoa = true;
+  function byId(id) { return window.PECK_TEAS.filter(function (t) { return t.id === id; })[0]; }
 })();
