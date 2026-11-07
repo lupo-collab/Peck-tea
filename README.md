@@ -33,7 +33,7 @@ Poi apri http://localhost:8000. Per usarla dal telefono va pubblicata su un host
 
 ## Catalogo
 
-Fonte: PDF `Digitalizzato_20261011-1104`, trascritto nel Google Doc "Peck catalogo tè" (44 schede, pagine 1–45; la pagina 40 non ha una scheda). Ogni prodotto riporta il numero di pagina del PDF (`page`).
+Fonte: PDF `Digitalizzato_20261011-1104`, trascritto nel Google Doc "Peck catalogo tè" (44 schede, pagine 1–45; la pagina 40 non ha una scheda; più 5 prodotti aggiunti dalle etichette, vedi sotto). Ogni prodotto riporta il numero di pagina del PDF (`page`).
 
 Cosa viene dal PDF e cosa no:
 
@@ -42,6 +42,16 @@ Cosa viene dal PDF e cosa no:
 - **Testi di vendita («Perché sceglierlo»):** scritti a partire dalle schede del PDF e da caratteristiche note del tipo di tè (provenienza, lavorazione, abbinamenti consigliati); non contengono dati inventati su raccolti, premi o prezzi. Le versioni non italiane vanno fatte rivedere da madrelingua.
 - **Dedotto dagli ingredienti:** i gusti di "Aurora Borealis" (speziato) e "Infuso alle erbe di montagna e miele" (floreale, dolce), per cui il PDF non ne indica.
 - **Tradotto:** descrizioni, origini, ingredienti e nomi descrittivi nelle altre 6 lingue.
+
+### Aggiunte da etichetta (novembre 2026)
+
+Cinque prodotti aggiunti dalle foto delle etichette delle latte (cartella Drive «te»): **Tè oolong rosa e lampone**, **Earl Grey Fiore Blu**, **Tè verde all'amarena e frutto della passione**, **Tè verde all'arancia**, **Tè nero fragola, cioccolato e caffè**. Per questi il catalogo PDF non ha schede (`page: null`):
+
+- **Dall'etichetta:** nome, ingredienti e percentuali, allergeni, dose per il tè fragola/cioccolato/caffè (3 g in 200 ml).
+- **Indicativo (`brewTypical`):** temperatura e tempo, scelti in linea con blend simili trovati online; l'app lo segnala sotto la preparazione.
+- **Stimato:** teina e gusti, come per gli altri prodotti.
+- **Correzioni da etichetta:** Lady Chatterley ha tè verde 93% (non 83%); Pleasure Forest si prepara con 5 g in 200 ml a 100 °C per 3–5 minuti.
+- **Allergeni:** inseriti solo dove l'etichetta li riporta (Pleasure Forest, Earl Grey Fiore Blu, Tè nero fragola/cioccolato/caffè). Per gli altri prodotti l'app invita a controllare l'etichetta: non significa «senza allergeni».
 
 Quattro prodotti non hanno descrizione nel PDF (Aurora Borealis, Rooibos alla prugna, Tè verde e bianco al gelsomino e agrumi, Infuso alle erbe di montagna e miele): l'app mostra ingredienti e preparazione.
 
