@@ -266,7 +266,17 @@
     if (!b) return "";
     return '<p class="eyebrow">' + esc(t("brewing")) + '</p><div class="brew"><div><b>' + (b.temp == null ? "–" : b.temp + "°") + "</b><span>" + esc(t("temp")) + " °C</span></div>" +
       "<div><b>" + range(b.time) + "</b><span>" + esc(t("time")) + " · " + esc(t("minutes")) + "</span></div>" +
-      "<div><b>" + range(b.grams) + "</b><span>" + esc(t("grams")) + "</span></div></div>";
+      "<div><b>" + range(b.grams) + "</b><span>" + esc(t("grams")) + "</span></div></div>" +
+      (tea.brewTypical ? '<p class="note">' + esc(t("brew_typical")) + "</p>" : "");
+  }
+  // Allergeni: solo quelli riportati sull'etichetta; senza dati si rimanda all'etichetta, mai "senza allergeni".
+  function allergenBlock(tea) {
+    var a = tea.allergens, sep = { zh: "、", ar: "، " }[state.lang] || ", ";
+    function names(list) { return list.map(function (k) { return t("al_" + k); }).join(sep); }
+    if (!a) return '<p class="note">' + esc(t("al_unknown")) + "</p>";
+    return (a.contains.length ? "<p><strong>" + esc(t("al_contains")) + ":</strong> " + esc(names(a.contains)) + "</p>" : "") +
+      (a.may.length ? "<p><strong>" + esc(t("al_may")) + ":</strong> " + esc(names(a.may)) + "</p>" : "") +
+      '<p class="note">' + esc(t("al_note")) + "</p>";
   }
 
   function viewTea(id) {
@@ -280,6 +290,7 @@
       section(t("sec_origin"), (tea.origin ? '<p class="lead-line">' + esc(origin(tea)) + "</p>" : "") + "<p>" + esc(t("cat_txt_" + tea.category)) + "</p>") +
       section(t("sec_mix"), "<p>" + esc(mixText(tea)) + "</p>") +
       section(t("sec_caffeine"), caffeineBlock(tea)) +
+      section(t("sec_allergens"), allergenBlock(tea)) +
       (desc(tea) ? section(t("sec_story"), '<p class="desc">' + esc(desc(tea)) + "</p>") : "") +
       "</main>";
   }

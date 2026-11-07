@@ -42,7 +42,7 @@ window.PECK_SAMPLE = false;
     P("darjeeling-lingia", 12, "Darjeeling Lingia 1st Flush 2014", "black", "high", ["floral", "fruity"], null, null, false, "india-darjeeling", B(95, [2, 3], [2, 3])),
     P("darjeeling-castleton", 13, "Darjeeling Castleton T.G.F.O.P. 2nd Flush", "black", "high", ["fruity", "floral"], null, null, false, "india-darjeeling-kurseong", B(95, [2, 3], [2, 3])),
     P("lady-chatterley", 14, "Lady Chatterley", "green", "medium", ["floral", "citrus"], null, ["plain"], false, null, B(80, [3, 4], [2, 3]),
-      ["green_tea:83", "lemon_peel", "orange_blossom", "bergamot_aroma", "flavouring"]),
+      ["green_tea:93", "lemon_peel", "orange_blossom", "bergamot_aroma", "flavouring"]),
     P("earl-grey", 15, "Peck Earl Grey", "black", "high", ["sweet", "citrus"], null, null, false, "ceylon-yunnan", B(95, [4, 5], [2, 3]),
       ["black_tea", "bergamot_aroma"]),
     P("caribbean-kiss", 16, "Caribbean Kiss", "green", "medium", ["citrus", "spicy", "sweet"], null, null, false, null, B(80, [3, 4], [2, 3]),
@@ -53,7 +53,7 @@ window.PECK_SAMPLE = false;
       ["black_tea:66", "cinnamon", "black_pepper", "cloves", "flavouring", "ginger", "cardamom", "cardamom_seeds"]),
     P("ryokan-dew", 19, "Ryokan Dew", "green", "medium", ["fruity"], null, null, false, null, B(80, [3, 4], [2, 3]),
       ["green_white_tea:80", "dragon_fruit", "lemon_peel", "flavouring", "kiwi_fd", "raspberry_fd", "pomegranate"]),
-    P("pleasure-forest", 20, "Pleasure Forest", "black", "high", ["sweet"], null, null, false, null, B(95, [4, 5], [2, 3]),
+    P("pleasure-forest", 20, "Pleasure Forest", "black", "high", ["sweet"], null, null, false, null, B(100, [3, 5], [5]),
       ["black_tea:89", "pistachio", "flavouring", "safflower"]),
     P("majorelle-garden", 21, "Majorelle Garden", "green", "medium", ["fresh"], null, null, true, null, B(80, [3, 4], [2, 3]),
       ["green_tea", "spearmint", "mint_aroma"]),
@@ -95,6 +95,24 @@ window.PECK_SAMPLE = false;
     P("erbe-montagna-miele", 45, { it: "Infuso alle erbe di montagna e miele", en: "Mountain herbs & honey infusion", fr: "Infusion herbes de montagne et miel", es: "Infusión de hierbas de montaña y miel", ru: "Настой горных трав с мёдом", zh: "高山草本蜂蜜花草茶", ar: "منقوع أعشاب الجبل والعسل" },
       "herbal", "none", ["floral", "sweet"], null, null, false, null, B(null, [5, 10], null),
       ["apple", "hibiscus_flowers", "greek_mountain_tea", "heather_flowers", "apple_mint", "sweet_blackberry_leaves", "lemon_verbena", "silver_lime_flowers", "rose_petals", "manuka_honey", "poppy_petals", "cornflowers"]),
+
+    // Aggiunti a novembre 2026 dalle etichette delle latte (foto nella cartella Drive "te"): page = null.
+    // Dove l'etichetta non indica la preparazione, brew è indicativo per il tipo di tè (brewTypical).
+    P("oolong-rosa-lampone", null, { it: "Tè oolong rosa e lampone", en: "Rose & raspberry oolong", fr: "Oolong rose et framboise", es: "Oolong de rosa y frambuesa", ru: "Улун с розой и малиной", zh: "玫瑰覆盆子乌龙茶", ar: "أولونغ بالورد والتوت" },
+      "oolong", "medium", ["floral", "fruity"], null, null, false, null, B(90, [3, 5], [2, 3]),
+      ["oolong_tea:91", "natural_flavouring", "pink_rose_buds", "rose_petals", "raspberry_whole_fd", "red_cornflower"]),
+    P("earl-grey-fiore-blu", null, { it: "Earl Grey Fiore Blu", en: "Earl Grey Blue Flower", fr: "Earl Grey Fleur Bleue", es: "Earl Grey Flor Azul", ru: "Эрл Грей «Голубой цветок»", zh: "蓝花伯爵茶", ar: "إيرل غراي بالزهرة الزرقاء" },
+      "black", "high", ["citrus", "floral"], null, null, false, null, B(95, [3, 5], [2, 3]),
+      ["black_tea", "mallow_flowers", "bergamot_aroma", "natural_flavourings"]),
+    P("verde-amarena-passion", null, { it: "Tè verde all'amarena e frutto della passione", en: "Sour cherry & passion fruit green tea", fr: "Thé vert griotte et fruit de la passion", es: "Té verde de guinda y fruta de la pasión", ru: "Зелёный чай с вишней и маракуйей", zh: "酸樱桃百香果绿茶", ar: "شاي أخضر بالكرز الحامض وفاكهة العاطفة" },
+      "green", "medium", ["fruity"], null, null, false, null, B(80, [2, 3], [2, 3]),
+      ["green_tea:93", "flavouring", "rose_hip_fd", "sour_cherry_fd", "passion_fruit_granules"]),
+    P("verde-arancia", null, { it: "Tè verde all'arancia", en: "Orange green tea", fr: "Thé vert à l'orange", es: "Té verde de naranja", ru: "Зелёный чай с апельсином", zh: "橙香绿茶", ar: "شاي أخضر بالبرتقال" },
+      "green", "medium", ["citrus", "floral"], null, null, false, "china", B(80, [2, 3], [2, 3]),
+      ["sencha_china", "orange_blossom", "orange_aroma"]),
+    P("nero-fragola-cioccolato-caffe", null, { it: "Tè nero fragola, cioccolato e caffè", en: "Strawberry, chocolate & coffee black tea", fr: "Thé noir fraise, chocolat et café", es: "Té negro de fresa, chocolate y café", ru: "Чёрный чай с клубникой, шоколадом и кофе", zh: "草莓巧克力咖啡红茶", ar: "شاي أسود بالفراولة والشوكولاتة والقهوة" },
+      "black", "high", ["sweet", "fruity", "earthy"], null, null, false, null, B(95, [3, 5], [3]),
+      ["black_tea:70", "cocoa_shell:20", "coffee_beans", "flavourings_celery", "strawberry_fd"]),
   ];
 
   window.PECK_ORIGINS = {
@@ -189,6 +207,20 @@ window.PECK_SAMPLE = false;
     manuka_honey: ["miele di Manuka in polvere (miele di Manuka, maltodestrina)", "Manuka honey powder (Manuka honey, maltodextrin)", "miel de Manuka en poudre (miel de Manuka, maltodextrine)", "miel de Manuka en polvo (miel de Manuka, maltodextrina)", "порошок мёда манука (мёд манука, мальтодекстрин)", "麦卢卡蜂蜜粉（麦卢卡蜂蜜、麦芽糊精）", "مسحوق عسل المانوكا (عسل المانوكا، مالتودكسترين)"],
     poppy_petals: ["petali di papavero", "poppy petals", "pétales de coquelicot", "pétalos de amapola", "лепестки мака", "罂粟花瓣", "بتلات الخشخاش"],
     cornflowers: ["fiordalisi", "cornflowers", "bleuets", "acianos", "васильки", "矢车菊", "زهور القنطريون"],
+    oolong_tea: ["tè semifermentato (oolong)", "semi-oxidised tea (oolong)", "thé semi-oxydé (oolong)", "té semioxidado (oolong)", "полуферментированный чай (улун)", "半发酵茶（乌龙茶）", "شاي نصف مؤكسد (أولونغ)"],
+    natural_flavouring: ["aroma naturale", "natural flavouring", "arôme naturel", "aroma natural", "натуральный ароматизатор", "天然香料", "منكّه طبيعي"],
+    natural_flavourings: ["aromi naturali", "natural flavourings", "arômes naturels", "aromas naturales", "натуральные ароматизаторы", "天然香料", "منكّهات طبيعية"],
+    pink_rose_buds: ["boccioli di rosa rosa", "pink rose buds", "boutons de rose rose", "capullos de rosa rosa", "бутоны розовой розы", "粉玫瑰花苞", "براعم الورد الوردي"],
+    raspberry_whole_fd: ["lamponi interi liofilizzati", "whole freeze-dried raspberries", "framboises entières lyophilisées", "frambuesas enteras liofilizadas", "целая сублимированная малина", "冻干整颗覆盆子", "توت عليق كامل مجفف بالتجميد"],
+    red_cornflower: ["fiori di fiordaliso rosso", "red cornflower blossoms", "fleurs de bleuet rouge", "flores de aciano rojo", "цветы красного василька", "红色矢车菊花", "زهور القنطريون الأحمر"],
+    rose_hip_fd: ["pezzi di rosa canina liofilizzati", "freeze-dried rosehip pieces", "morceaux d'églantier lyophilisés", "trozos de escaramujo liofilizados", "кусочки сублимированного шиповника", "冻干玫瑰果块", "قطع ثمر الورد المجففة بالتجميد"],
+    passion_fruit_granules: ["granuli di frutto della passione liofilizzati (sciroppo di glucosio, succo concentrato di frutto della passione, polpa di albicocca, amido modificato)", "freeze-dried passion fruit granules (glucose syrup, passion fruit juice concentrate, apricot pulp, modified starch)", "granulés de fruit de la passion lyophilisés (sirop de glucose, jus concentré de fruit de la passion, pulpe d'abricot, amidon modifié)", "gránulos de fruta de la pasión liofilizados (jarabe de glucosa, zumo concentrado de fruta de la pasión, pulpa de albaricoque, almidón modificado)", "сублимированные гранулы маракуйи (глюкозный сироп, концентрированный сок маракуйи, мякоть абрикоса, модифицированный крахмал)", "冻干百香果颗粒（葡萄糖浆、浓缩百香果汁、杏肉、变性淀粉）", "حبيبات فاكهة العاطفة المجففة بالتجميد (شراب الجلوكوز، عصير فاكهة العاطفة المركّز، لب المشمش، نشا معدّل)"],
+    sencha_china: ["tè verde cinese Sencha", "Chinese Sencha green tea", "thé vert Sencha de Chine", "té verde Sencha chino", "китайский зелёный чай Сенча", "中国煎茶绿茶", "شاي أخضر سينشا صيني"],
+    orange_aroma: ["aroma naturale di arancia", "natural orange flavouring", "arôme naturel d'orange", "aroma natural de naranja", "натуральный ароматизатор апельсина", "天然橙子香料", "منكّه البرتقال الطبيعي"],
+    cocoa_shell: ["scorza di cacao", "cocoa shells", "coques de cacao", "cáscara de cacao", "оболочка какао-бобов", "可可壳", "قشور الكاكاو"],
+    coffee_beans: ["chicchi di caffè tostati", "roasted coffee beans", "grains de café torréfiés", "granos de café tostados", "обжаренные кофейные зёрна", "烘焙咖啡豆", "حبوب قهوة محمصة"],
+    flavourings_celery: ["aromi (olio di semi di sedano)", "flavourings (celery seed oil)", "arômes (huile de graines de céleri)", "aromas (aceite de semillas de apio)", "ароматизаторы (масло семян сельдерея)", "香料（芹菜籽油）", "منكّهات (زيت بذور الكرفس)"],
+    strawberry_fd: ["pezzi di fragola liofilizzati", "freeze-dried strawberry pieces", "morceaux de fraise lyophilisés", "trozos de fresa liofilizados", "кусочки сублимированной клубники", "冻干草莓块", "قطع فراولة مجففة بالتجميد"],
   };
   var order = ["it", "en", "fr", "es", "ru", "zh", "ar"];
   window.PECK_INGREDIENTS = {};
@@ -235,10 +267,19 @@ window.PECK_PHOTOS = {
     "bancha": "green-glass", "sencha-fuji": "green-glass", "kukicha": "green-white", "gyokuro-asahi": "green-glass", "gyokuro-hiki": "green-white",
     "secret-eyes": "mint-fresh", "childhood-memories": "hibiscus-leaves", "aurora-borealis": "spices", "rooibos-prugna": "hibiscus-leaves",
     "lavanda-lampone": "herbs-spoon", "gelsomino-agrumi": "herbs-jars", "erbe-montagna-miele": "herbs-spoon",
+    "oolong-rosa-lampone": "dark-leaves", "earl-grey-fiore-blu": "loose-flatlay", "verde-amarena-passion": "herbal-loose",
+    "verde-arancia": "gaiwan-green", "nero-fragola-cioccolato-caffe": "loose-flatlay",
   };
   window.PECK_TEAS.forEach(function (t) { t.photo = window.PECK_PHOTOS[map[t.id]] || null; });
   // Blend di tè neri senza ingredienti elencati nel PDF; caffeina dal cacao (buccia e granella) invece che dal tè.
   ["english-breakfast", "afternoon-tea", "irish-breakfast"].forEach(function (id) { byId(id).blend = true; });
   byId("heart-melodies").cocoa = true;
+  // Allergeni dalle etichette delle latte: contains = presente negli ingredienti, may = "può contenere".
+  // I prodotti senza questo dato mostrano l'invito a controllare l'etichetta (nessuna dichiarazione "senza allergeni").
+  byId("pleasure-forest").allergens = { contains: ["pistachio"], may: ["milk", "soy", "peanuts", "nuts", "celery"] };
+  byId("earl-grey-fiore-blu").allergens = { contains: [], may: ["milk", "soy", "peanuts", "celery", "gluten", "mustard", "nuts"] };
+  byId("nero-fragola-cioccolato-caffe").allergens = { contains: ["celery"], may: ["milk", "soy", "celery", "nuts", "peanuts"] };
+  // Preparazione non (o solo in parte) indicata sull'etichetta: valori tipici del tipo di tè.
+  ["oolong-rosa-lampone", "earl-grey-fiore-blu", "verde-amarena-passion", "verde-arancia", "nero-fragola-cioccolato-caffe"].forEach(function (id) { byId(id).brewTypical = true; });
   function byId(id) { return window.PECK_TEAS.filter(function (t) { return t.id === id; })[0]; }
 })();
